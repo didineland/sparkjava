@@ -11,6 +11,16 @@ public class Application {
     private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
+
+        internalServerError("<html><body><h1>Custom 500 handling</h1></body></html>");
+        path("/fail", () -> {
+            before("", (q, a) -> System.out.println("Before fail Call"));
+            after("", (q, a) -> {
+                System.out.println("After fail Call");
+            });
+            get("", UserRestService::fail, gson::toJson);
+        });
+
         get("/bonjour", (req, res) -> "Hello World");
 
         path("/api", () -> {
