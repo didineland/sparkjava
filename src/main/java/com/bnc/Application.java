@@ -12,6 +12,8 @@ public class Application {
 
     public static void main(String[] args) {
 
+        webSocket("/echo", EchoWebSocket.class);
+
         internalServerError("<html><body><h1>Custom 500 handling</h1></body></html>");
         path("/fail", () -> {
             before("", (q, a) -> System.out.println("Before fail Call"));
