@@ -21,4 +21,11 @@ public class UserRestService {
         return user;
     }
 
+    public static String fail(Request request, Response response) throws Exception{
+
+        //return "toto";
+        throw new Exception("toto");
+
+    }
+
 }
