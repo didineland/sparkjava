@@ -1,8 +1,11 @@
 package com.bnc;
-import com.bnc.UserRestService;
+import com.bnc.dao.EventDao;
+import com.bnc.entity.Event;
+import com.bnc.rest.EventRestService;
+import com.bnc.websocket.EchoWebSocket;
 import com.google.gson.Gson;
 
-import javax.inject.Inject;
+import java.util.List;
 
 import static spark.Spark.*;
 
@@ -12,6 +15,11 @@ public class Application {
 
     public static void main(String[] args) {
 
+        EventDao dao = new EventDao();
+
+
+        List<Event> toto = dao.getEvent();
+
         webSocket("/echo", EchoWebSocket.class);
 
         internalServerError("<html><body><h1>Custom 500 handling</h1></body></html>");
@@ -20,7 +28,7 @@ public class Application {
             after("", (q, a) -> {
                 System.out.println("After fail Call");
             });
-            get("", UserRestService::fail, gson::toJson);
+            get("", EventRestService::fail, gson::toJson);
         });
 
         get("/bonjour", (req, res) -> "Hello World");
@@ -31,7 +39,8 @@ public class Application {
                 System.out.println("After Api Call");
                 a.type("application/json");
             });
-            post("/users", UserRestService::postUser, gson::toJson);
+            post("/event", EventRestService::postEvent, gson::toJson);
+            get("/event", EventRestService::getEvents, gson::toJson);
         });
     }
 }

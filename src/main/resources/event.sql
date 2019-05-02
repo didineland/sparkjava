@@ -1,0 +1,1 @@
+create table event (id bigint auto_increment, name varchar(255), description varchar(255), startTime date );
